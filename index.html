@@ -1,0 +1,54 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reclamar Bitcoin Lightning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #mensaje {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reclamar Bitcoin en Lightning Network</h1>
+    <input type="text" id="billetera" placeholder="Ingresa tu billetera Lightning">
+    <button id="reclamar">Reclamar BTC</button>
+    <p id="mensaje"></p>
+    
+    <script>
+        document.getElementById('reclamar').addEventListener('click', async () => {
+            const billetera = document.getElementById('billetera').value;
+            if (!billetera) {
+                document.getElementById('mensaje').innerText = 'Por favor, ingresa tu billetera Lightning.';
+                return;
+            }
+            
+            const respuesta = await fetch('/reclamar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ billetera })
+            });
+            
+            const data = await respuesta.json();
+            document.getElementById('mensaje').innerText = data.mensaje;
+        });
+    </script>
+</body>
+</html>
